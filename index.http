@@ -1,0 +1,9 @@
+GET http://localhost:5641/
+
+###
+POST http://localhost:5641/
+Content-Type: application/json
+
+{
+    "fullUrl": "https://www.youtube.com/watch?v=_APMzTjuMzA"
+}
