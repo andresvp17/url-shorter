@@ -7,7 +7,7 @@ const formData = new FormData(form)
 const getUrls = async () => {
     let html = ''
     try {
-        const urls = await fetch('http://localhost:5641/')
+        const urls = await fetch('https://url-shorter-production-3772.up.railway.app/')
 
         if (!urls.ok) {
             throw new ResourcesError('The Urls could not be retrieved')
