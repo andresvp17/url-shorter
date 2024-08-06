@@ -12,7 +12,7 @@ class MongooseConnection {
         }
         
         mongooseInstance = this
-        this.connectionPassword = `mongodb+srv://Andres:${process.env.DB_PASSWORD}@clusterone.imf7u.mongodb.net/Shortener?retryWrites=true&w=majority`
+        this.connectionPassword = process.env.DB_CONNECTION_STRING
     }
 
     async connect() {
