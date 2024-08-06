@@ -19,7 +19,7 @@ const getUrls = async () => {
             html += `
             <tr class="tableRow">
                 <td><a target="_blank" href="${fullUrl}">${fullUrl}</a></td>
-                <td><a target="_blank" href="http://localhost:5641/${shortUrl}">${'/' + shortUrl}</a></td>
+                <td><a target="_blank" href="https://url-shorter-production-3772.up.railway.app/${shortUrl}">${'/' + shortUrl}</a></td>
             </tr>
             `
         })
