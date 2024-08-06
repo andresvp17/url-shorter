@@ -39,7 +39,7 @@ form.addEventListener('submit', async (evt) => {
     const input = formData.get('link')
 
     try {
-        await fetch('http://localhost:5641/', {
+        await fetch('https://url-shorter-production-3772.up.railway.app/', {
             method: 'POST',
             body: JSON.stringify(input),
             headers: {
@@ -49,7 +49,11 @@ form.addEventListener('submit', async (evt) => {
         
         getUrls()
     } catch (error) {
-        console.log(error)
+        if (error instanceof ResourcesError) {
+            tableBody.innerHTML = `
+                <h2>Error loading the resources. Try to refresh the page</h2>
+            `
+        }
     }
 })
 
