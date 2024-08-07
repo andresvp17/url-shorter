@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { DataBaseConnection } from './db/db.js'
 import { ShortModel } from './model/model.js'
 import { corsMiddleware } from './lib/utils.js'
@@ -22,7 +23,7 @@ export class Server {
     setUpMiddleware () {
         this.express.use(express.json())
         this.express.use(express.urlencoded({ extended: false }))
-        this.express.use(corsMiddleware())
+        this.express.use(cors())
     } 
 }
 
