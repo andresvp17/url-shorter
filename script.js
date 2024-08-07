@@ -43,11 +43,11 @@ form.addEventListener('submit', async (evt) => {
             method: 'POST',
             body: JSON.stringify(input),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         })
         
-        getUrls()
+        await getUrls()
     } catch (error) {
         if (error instanceof ResourcesError) {
             tableBody.innerHTML = `
