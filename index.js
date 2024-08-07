@@ -2,7 +2,6 @@ import express from 'express'
 import cors from 'cors'
 import { DataBaseConnection } from './db/db.js'
 import { ShortModel } from './model/model.js'
-import { corsMiddleware } from './lib/utils.js'
 
 export class Server {
     constructor(port, dbService) {
