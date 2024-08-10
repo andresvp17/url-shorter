@@ -7,7 +7,7 @@ const formData = new FormData(form)
 const getUrls = async () => {
     let html = ''
     try {
-        const urls = await fetch('https://url-shorter-production-3772.up.railway.app/')
+        const urls = await fetch('https://url-shorter-production-3772.up.railway.app')
 
         if (!urls.ok) {
             throw new ResourcesError('The Urls could not be retrieved')
@@ -39,7 +39,7 @@ form.addEventListener('submit', async (evt) => {
     const input = formData.get('link')
 
     try {
-        await fetch('https://url-shorter-production-3772.up.railway.app/', {
+        await fetch('https://url-shorter-production-3772.up.railway.app', {
             method: 'POST',
             body: JSON.stringify(input),
             headers: {

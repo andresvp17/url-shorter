@@ -1,5 +1,4 @@
 import express from 'express'
-import cors from 'cors'
 import { DataBaseConnection } from './db/db.js'
 import { ShortModel } from './model/model.js'
 
@@ -9,12 +8,11 @@ export class Server {
         this.dbService = dbService
         this.express = express()
         this.startServer()
-        this.setUpMiddleware()
     }
 
     async startServer() {
-        this.express.listen(this.port ?? 5641, () => {
-            console.log('Server Running')
+        this.express.listen(this.port, () => {
+            console.log('Server Running' + ' ' + this.port)
         })
         await this.dbService.connect()
     }
@@ -22,8 +20,7 @@ export class Server {
     setUpMiddleware () {
         this.express.use(express.json())
         this.express.use(express.urlencoded({ extended: false }))
-        this.express.use(cors())
-    } 
+    }
 }
 
 const app = new Server(process.env.PORT ?? 5641, DataBaseConnection)
@@ -31,6 +28,7 @@ const app = new Server(process.env.PORT ?? 5641, DataBaseConnection)
 app.express.get('/', async (req, res) => {
     const urls = await ShortModel.find({})
 
+    res.setHeader('Access-Control-Allow-Origin', '*')
     return res.json({ urls })
 })
 
@@ -54,6 +52,8 @@ app.express.post('/', async (req, res) => {
     const newUrl = new ShortModel({ fullUrl: req.body.fullUrl })
     const savedProduct = await newUrl.save()
 
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     return res.status(201).json(savedProduct)
 })
 
@@ -61,6 +61,8 @@ app.express.get('/:shortUrl', async (req, res) => {
     const shortUrl = await ShortModel.findOne({ shortUrl: req.params.shortUrl })
 
     if (shortUrl == null) return res.sendStatus(404)
+
+    res.setHeader('Access-Control-Allow-Origin', '*')
 
     res.redirect(shortUrl.fullUrl)
 })
