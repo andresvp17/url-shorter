@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { DataBaseConnection } from './db/db.js'
 import { ShortModel } from './model/model.js'
 
@@ -11,7 +12,7 @@ export class Server {
     }
 
     async startServer() {
-        this.express.listen(this.port, () => {
+        this.express.listen(this.port, '0.0.0.0', () => {
             console.log('Server Running' + ' ' + this.port)
         })
         await this.dbService.connect()
@@ -25,6 +26,8 @@ export class Server {
 
 const app = new Server(process.env.PORT ?? 5641, DataBaseConnection)
 
+app.express.use(cors())
+
 app.express.get('/', async (req, res) => {
     const urls = await ShortModel.find({})
 
@@ -33,13 +36,15 @@ app.express.get('/', async (req, res) => {
 })
 
 app.express.post('/', async (req, res) => {
-    if (!req.body.fullUrl.startsWith('https://')) {
+    const { fullUrl } = req.body
+
+    if (!fullUrl.startsWith('https://')) {
         return res.json({
             message: 'The shortened url must be https'
         }).statusCode(400)
     }
 
-    const existingURL = await ShortModel.findOne({ fullUrl: req.body.fullUrl })
+    const existingURL = await ShortModel.findOne({ fullUrl: fullUrl })
 
     if (existingURL) {
         return res
@@ -49,12 +54,17 @@ app.express.post('/', async (req, res) => {
         })
     }
 
-    const newUrl = new ShortModel({ fullUrl: req.body.fullUrl })
-    const savedProduct = await newUrl.save()
+    try {
+        const newUrl = new ShortModel({ fullUrl: req.body.fullUrl })
+        const savedProduct = await newUrl.save()
 
-    res.setHeader('Access-Control-Allow-Origin', '*')
+        console.log(req.headers)
+        res.setHeader('Access-Control-Allow-Origin', '*')
 
-    return res.status(201).json(savedProduct)
+        return res.status(201).json(savedProduct)
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 app.express.get('/:shortUrl', async (req, res) => {

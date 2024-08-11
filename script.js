@@ -1,12 +1,18 @@
 import { ResourcesError } from './error.js'
  
 const form = document.getElementById('form')
+const table = document.querySelector('table')
 const tableBody = document.getElementById('table')
+const spiner = document.getElementById('spinner')
 const formData = new FormData(form)
 
 const getUrls = async () => {
     let html = ''
+
     try {
+        table.style.display = 'none'
+        spiner.style.display = 'block'     
+
         const urls = await fetch('https://url-shorter-production-3772.up.railway.app')
 
         if (!urls.ok) {
@@ -24,9 +30,13 @@ const getUrls = async () => {
             `
         })
 
+        spiner.style.display = 'none'
+        spiner.remove()
+        table.style.display = 'block'
         tableBody.innerHTML = html
     } catch (error) {
         if (error instanceof ResourcesError) {
+            table.style.display = 'block'
             tableBody.innerHTML = `
                 <h2>Error loading the resources. Try to refresh the page</h2>
             `
