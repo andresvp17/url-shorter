@@ -29,6 +29,7 @@ export class Server {
 
 const app = new Server(process.env.PORT ?? 5641, DataBaseConnection)
 
+app.express.options('/', cors())
 
 app.express.get('/', async (req, res) => {
     const urls = await ShortModel.find({})
