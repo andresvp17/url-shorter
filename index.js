@@ -19,6 +19,7 @@ export class Server {
     }
 
     setUpMiddleware () {
+        this.express.use(cors())
         this.express.use(express.json())
         this.express.use(express.urlencoded({ extended: false }))
     }
@@ -26,7 +27,6 @@ export class Server {
 
 const app = new Server(process.env.PORT ?? 5641, DataBaseConnection)
 
-app.express.use(cors())
 
 app.express.get('/', async (req, res) => {
     const urls = await ShortModel.find({})
@@ -58,7 +58,7 @@ app.express.post('/', async (req, res) => {
         const newUrl = new ShortModel({ fullUrl: req.body.fullUrl })
         const savedProduct = await newUrl.save()
 
-        console.log(req.headers)
+        req.header('Access-Control-Allow-Origin', '*')
         res.setHeader('Access-Control-Allow-Origin', '*')
 
         return res.status(201).json(savedProduct)
