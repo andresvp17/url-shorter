@@ -19,7 +19,9 @@ export class Server {
     }
 
     setUpMiddleware () {
-        this.express.use(cors())
+        this.express.use(cors({
+            origin: 'https://url-shorter-sigma.vercel.app'
+        }))
         this.express.use(express.json())
         this.express.use(express.urlencoded({ extended: false }))
     }
