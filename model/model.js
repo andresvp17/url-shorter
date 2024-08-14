@@ -10,6 +10,10 @@ const shortUrlSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: randomURL()
+    },
+    alias: {
+        type: String,
+        required: true
     }
 })
 

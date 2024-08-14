@@ -34,7 +34,7 @@ app.express.get('/', async (req, res) => {
 })
 
 app.express.post('/', async (req, res) => {
-    const { fullUrl } = req.body
+    const { fullUrl, alias } = req.body
     if (!fullUrl.startsWith('https://')) {
         return res
         .json({
@@ -44,6 +44,7 @@ app.express.post('/', async (req, res) => {
     }
 
     const existingURL = await ShortModel.findOne({ fullUrl })
+    const existingAlias = await ShortModel.findOne({ alias })
 
     if (existingURL) {
         return res
@@ -53,8 +54,16 @@ app.express.post('/', async (req, res) => {
         })
     }
 
+    if (existingAlias) {
+        return res
+        .status(400)
+        .json({
+            message: 'This Alias is already used in a URL'
+        })
+    }
+
     try {
-        const newUrl = new ShortModel({ fullUrl })
+        const newUrl = new ShortModel({ fullUrl, alias })
         const savedProduct = await newUrl.save()
 
         return res.status(201).json(savedProduct)

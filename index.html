@@ -34,13 +34,21 @@
         <section>
             <h1>Chop Chop 🖇️</h1>
             <form id="form">
-                <input name="link" type="text" placeholder="Enter your link" autocomplete="off">
+                <div>
+                    <label for="link">URL</label>
+                    <input name="link" type="text" placeholder="Enter your URL" autocomplete="off">
+                </div>
+                <div>
+                    <label for="alias">URL Alias</label>
+                    <input name="alias" type="text" placeholder="Write the alias of your URL" autocomplete="off">
+                </div>
                 <button type="submit">Chop It!</button>
             </form>
             <table>
                 <thead>
                     <th>Full Url</th>
                     <th>Shortened Url</th>
+                    <th>Alias</th>
                     <span id="spinner" class="spinner"></span>
                 </thead>
                 <tbody id="table"></tbody>

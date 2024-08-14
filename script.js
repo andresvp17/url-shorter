@@ -4,7 +4,6 @@ const form = document.getElementById('form')
 const table = document.querySelector('table')
 const tableBody = document.getElementById('table')
 const spiner = document.getElementById('spinner')
-const formData = new FormData(form)
 
 const getUrls = async () => {
     let html = ''
@@ -21,17 +20,17 @@ const getUrls = async () => {
 
         const { urls: urlsToRender } = await urls.json()
 
-        urlsToRender.forEach(({ fullUrl, shortUrl }) => {
+        urlsToRender.forEach(({ fullUrl, shortUrl, alias }) => {
             html += `
             <tr class="tableRow">
                 <td><a target="_blank" href="${fullUrl}">${fullUrl}</a></td>
                 <td><a target="_blank" href="https://url-shorter-production-3772.up.railway.app/${shortUrl}">${'/' + shortUrl}</a></td>
+                <td>${alias}</td>
             </tr>
             `
         })
 
         spiner.style.display = 'none'
-        spiner.remove()
         table.style.display = 'block'
         tableBody.innerHTML = html
     } catch (error) {
@@ -46,12 +45,17 @@ const getUrls = async () => {
 
 form.addEventListener('submit', async (evt) => {
     evt.preventDefault()
+    const formData = new FormData(form)
     const input = formData.get('link')
+    const alias = formData.get('alias')
 
     try {
-        await fetch('https://url-shorter-production-3772.up.railway.app', {
+        await fetch('https://url-shorter-production-3772.up.railway.app/', {
             method: 'POST',
-            body: JSON.stringify(input),
+            body: JSON.stringify({
+                fullUrl: input,
+                alias
+            }),
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -67,4 +71,4 @@ form.addEventListener('submit', async (evt) => {
     }
 })
 
-getUrls()
+await getUrls()
