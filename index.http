@@ -1,9 +1,20 @@
 GET https://url-shorter-production-3772.up.railway.app
 
 ###
+GET http://localhost:5641/
+
+###
 POST https://url-shorter-production-3772.up.railway.app/
 
 Content-Type: application/json
 {
     "fullUrl": "https://www.twitch.tv/search?term=midudev"
+}
+
+###
+POST http://localhost:5641/
+
+Content-Type: application/json
+{
+    "fullUrl": "https://www.youtube.com/watch?v=u4SSOgZNYYM"
 }
