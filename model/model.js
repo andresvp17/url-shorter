@@ -9,11 +9,11 @@ const shortUrlSchema = new mongoose.Schema({
     shortUrl: {
         type: String,
         required: true,
-        default: randomURL()
     },
     alias: {
         type: String,
-        required: true
+        required: true,
+        default:  randomURL()
     }
 })
 
