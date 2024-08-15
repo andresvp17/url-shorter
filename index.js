@@ -36,6 +36,7 @@ app.express.get('/', async (req, res) => {
 
 app.express.post('/', async (req, res) => {
     const { fullUrl, alias } = req.body
+
     if (!fullUrl.startsWith('https://')) {
         return res
         .json({
@@ -64,7 +65,12 @@ app.express.post('/', async (req, res) => {
     }
 
     try {
-        const newUrl = new ShortModel({ fullUrl, alias })
+        const urlObject = {
+            fullUrl,
+            alias,
+            shortUrl: randomURL()
+        }
+        const newUrl = new ShortModel(urlObject)
         const savedProduct = await newUrl.save()
 
         return res.status(201).json(savedProduct)
